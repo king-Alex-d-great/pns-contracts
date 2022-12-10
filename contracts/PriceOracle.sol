@@ -1,27 +1,34 @@
-//TODO Split contract functionalities into different sub contracts 
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import '@chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol';
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 
+contract PriceConsumerV3 is Initializable {
+	AggregatorV3Interface internal priceFeed;
 
-contract PriceOracle {
+	/**
+	 * Network: Mainnet
+	 * Aggregator: ETH/USD
+	 * Address: 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
+	 */
 
-    //testnet priceFeed goreil
-    AggregatorV3Interface private constant ETH_USD_CHAINLINK = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
+	/**
+	 * Network: Goreil
+	 * Aggregator: ETH/USD
+	 * Address: 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e)
+	 */
+	function initialize() public {
+		priceFeed = AggregatorV3Interface(0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e);
+	}
 
-   /**
-     * @dev Returns the ETH price in USD ( DAI) using chainlink
-     */
-    function getEtherPriceInUSD() internal view returns (uint256) {
-        (uint80 roundID,
-         int256 price,
-          ,
-          ,
-         uint80 answeredInRound) = ETH_USD_CHAINLINK.latestRoundData();
-        require(answeredInRound >= roundID, "getEtherPrice: Chainlink Price Stale");
-        // Chainlink returns 8 decimal places so we convert
-        return uint256(price) * (10**8);
-    }
+	/**
+	 * Returns the latest price
+	 */
+	function getLatestETHPrice() internal view returns (int256) {
+		(uint80 roundID, int256 price, uint256 startedAt, uint256 timeStamp, uint80 answeredInRound) = priceFeed.latestRoundData();
+		// If the round is not complete yet, timestamp is 0
+		require(timeStamp > 0, 'Round not complete');
+		return uint256(price) * (10**8);
+	}
 }
