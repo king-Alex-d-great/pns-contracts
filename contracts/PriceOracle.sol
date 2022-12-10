@@ -26,7 +26,8 @@ contract PriceConsumerV3 is Initializable {
 	 * Returns the latest price
 	 */
 	function getLatestETHPrice() internal view returns (int256) {
-		(uint80 roundID, int256 price, uint256 startedAt, uint256 timeStamp, uint80 answeredInRound) = priceFeed.latestRoundData();
+		(uint80 roundID, int256 price, , uint256 timeStamp, uint80 answeredInRound) = priceFeed.latestRoundData();
+		require(answeredInRound >= roundID, 'getEtherPrice: Chainlink Price Stale');
 		// If the round is not complete yet, timestamp is 0
 		require(timeStamp > 0, 'Round not complete');
 		return uint256(price) * (10**8);
