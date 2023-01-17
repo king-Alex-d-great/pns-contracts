@@ -29,8 +29,6 @@ interface IPNSRegistry is IPNSSchema {
 
 	function getResolver(bytes32 phoneHash) external view returns (ResolverRecord[] memory);
 
-	function setPhoneRecordMapping(PhoneRecord memory recordData, bytes32 phoneHash) external;
-
 	function renew(bytes32 phoneHash) external payable;
 
 	function getAmountinETH(uint256 usdAmount) external view returns (uint256);
