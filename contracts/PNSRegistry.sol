@@ -2,7 +2,7 @@
 pragma solidity 0.8.9;
 
 //  ==========  External imports    ==========
-
+import 'hardhat/console.sol';
 import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
 import '@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol';
@@ -381,7 +381,7 @@ contract PNSRegistry is Initializable, AccessControlUpgradeable, IPNSSchema {
 
 	function convertAmountToETH(uint256 usdAmount) internal view returns (uint256) {
 		uint256 ethPrice = uint256(getEtherPriceInUSD());
-
+		console.log(ethPrice * 10**18, 'price of eth');
 		uint256 ethAmount = ((usdAmount) / ethPrice);
 
 		return ethAmount;

@@ -94,6 +94,10 @@ async function deployContract() {
   const pnsRegistryRenewCost = await pnsRegistryContract.getRegistryRenewCost();
   console.log('Registry Cost set to', pnsRegistrycost, 'Registry Renew Cost set to', pnsRegistryRenewCost);
 
+  const ethPrice = await pnsRegistryContract.getAmountinETH();
+
+  console.log(ethPrice.toString(), 'price in eth');
+
   await pnsGuardianContract.setPNSRegistry(pnsRegistryContract.address);
   console.log('Registry contract set to', pnsRegistryContract.address);
 
