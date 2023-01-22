@@ -8,7 +8,7 @@
     "prettify": "npx prettier '**/*.{json,sol,md,ts}' --write",
     "compile": "hardhat compile",
     "coverage": "cross-env CODE_COVERAGE=true hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"./test/**/*.ts\"",
-    "test": "npx hardhat test",
+    "test": "npx hardhat test --network bnb_testnet",
     "deploy:localhost": "npx hardhat run --network localhost scripts/deploy.ts",
     "deploy:bnb_testnet": "npx hardhat run --network bnb_testnet scripts/deploy.ts",
     "deploy:ethereum_goerli": "npx hardhat run --network ethereum_goerli scripts/deploy.ts",
